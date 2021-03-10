@@ -1,14 +1,25 @@
-from zeep import Client
-from flask import Flask
+from flask import Flask, render_template
+from forms import register_client
+from flask_bootstrap import Bootstrap
 
 app = Flask(__name__)
-client = Client('https://tp-info802-server.ew.r.appspot.com/?wsdl')
 
+# Flask-WTF requires an encryption key - the string can be anything
+app.config['SECRET_KEY'] = 'C2HWGVoMGfNTBsrYQg8EcMrdTimkZfAb'
+
+# Flask-Bootstrap requires this line
+Bootstrap(app)
 
 @app.route('/')
-def hello():
-    result = client.service.say_hello('Michel', 5)
-    return str(result)
+def index():
+    return render_template('index.html')
+
+@app.route('/client/register', methods=['GET', 'POST'])
+def register_client_user():
+    form = register_client.RegisterClientForm()
+    if form.validate_on_submit():
+        return "enregistré"
+    return render_template('register_client.html', form=form)
 
 
 if __name__ == '__main__':
