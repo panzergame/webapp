@@ -7,14 +7,14 @@ from mangopay.api import APIRequest
 from mangopay.resources import *
 from mangopay.utils import Address
 
-class User:
+class Client:
     def __init__(self, username, email, password, mangopayid=None):
         self.username = username
         self.email = email
         self.password = password
         
         if mangopayid:
-            self.__mangopay_user = User.get(mangopayid)
+            self.__mangopay_user = Client.get(mangopayid)
 
     def register_mangopay(self, firstname, lastname, birthday, nationality, country_of_residence):
         self.__mangopay_user = NaturalUser(first_name=firstname,
@@ -29,7 +29,7 @@ class User:
 
     @staticmethod
     def create(username, email, password):
-        user = User(username, email, password)
+        user = Client(username, email, password)
         user.save()
 
     @staticmethod
