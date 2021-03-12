@@ -1,3 +1,4 @@
+from flask_login import UserMixin
 import mangopay
 
 mangopay.client_id = 'testclient1' # TODO config
@@ -7,8 +8,9 @@ from mangopay.api import APIRequest
 from mangopay.resources import *
 from mangopay.utils import Address
 
-class Client:
-    def __init__(self, username, email, password, mangopayid=None):
+class Client(UserMixin):
+    def __init__(self, id, username, email, password, mangopayid=None):
+        self.id = id
         self.username = username
         self.email = email
         self.password = password
@@ -29,12 +31,16 @@ class Client:
 
     @staticmethod
     def create(username, email, password):
-        user = Client(username, email, password)
+        user = Client(0, username, email, password) # TODO id
         user.save()
 
     @staticmethod
     def get(id):
-        pass
+        return Client(id, 'toto', 'toto@mail.com', 'toto')
+
+    @staticmethod
+    def get_by_credential(email, password):
+        return Client(0, 'toto', email, password)
 
     def save(self):
         pass
