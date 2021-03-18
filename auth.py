@@ -11,10 +11,10 @@ auth_page = Blueprint('auth', __name__)
 def register_client():
     form = RegisterClientForm()
     if form.validate_on_submit():
-        print(form)
-        client = Client.create(form.username, form.email, form.password)
-        
-        return redirect(url_for('auth.login_client'))
+        client = Client.create(form.username.data, form.email.data, form.password.data)
+        login_user(client)
+
+        return redirect(url_for('main.products'))
 
     return render_template('register_client.html', form=form)
 
@@ -22,9 +22,9 @@ def register_client():
 def login_client():
     form = LoginClientForm()
     if form.validate_on_submit():
-        client = Client.get_by_credential(form.email, form.password)
-        login_user(client, remember=form.remember)
+        client = Client.get_by_credential(form.email.data, form.password.data)
+        login_user(client, remember=form.remember.data)
 
-        return redirect(url_for('main.client_profile'))
+        return redirect(url_for('main.products'))
 
     return render_template('login_client.html', form=form)

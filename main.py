@@ -7,7 +7,7 @@ main_page = Blueprint('main', __name__)
 def index():
     return render_template('index.html')
 
-@main_page.route('/client/profile')
+@main_page.route('/products')
 @login_required
-def client_profile():
-    return render_template('client_profile.html', name=current_user.username)
+def products():
+    return render_template('products.html', name=current_user.username)
