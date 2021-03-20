@@ -4,3 +4,7 @@ py-money
 Flask-login
 Zeep
 Isodate
+Flask-bootstrap4
+Mangopaysdk
+Flask-wtf
+Gql
