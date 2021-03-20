@@ -6,27 +6,63 @@ from mangopay.utils import Address
 
 from gql import gql
 from . import clientgraphql
+from .seller import seller
+import requests
+
 
 class Client(UserMixin):
-	def __init__(self, id, username, email, mangopayid=None):
+	def __init__(self, id='', username='', email=''):
 		self.id = id
 		self.username = username
 		self.email = email
-		
-		if mangopayid:
-			self.__mangopay_user = Client.get(mangopayid)
 
-	def register_mangopay(self, firstname, lastname, birthday, nationality, country_of_residence):
-		self.__mangopay_user = NaturalUser(
+	def _register_mangopay(self, firstname, lastname, birthday, nationality, country_of_residence):
+		self.mangopay_user = NaturalUser(
 						first_name=firstname,
 						last_name=lastname,
 						birthday=birthday,
 						nationality=nationality,
 						country_of_residence=country_of_residence,
 						email=self.email)
-		self.__mangopay_user.save()
+		self.mangopay_user.save()
 
-		self.save()
+	def _register_card(self, number, cvx, expiration_date):
+		card_registration = CardRegistration(user=self.mangopay_user, currency='EUR')
+		card_registration.save()
+
+		tokenizer_url = card_registration.card_registration_url
+		res = requests.post(
+			tokenizer_url, data={
+				'cardNumber': '4970100000000154',
+				'cardCvx': '123',
+				'cardExpirationDate': '0128',
+				'accessKeyRef': card_registration.access_key,
+				'data': card_registration.preregistration_data
+			})
+
+		card_registration.registration_data = res.text
+		card_registration.save()
+		self.card = card_registration.card
+
+	def buy_product(
+			self, product, quantity, distance, number, cvx, expiration_date, first_name,
+			last_name, birthday):
+
+		self._register_mangopay(first_name, last_name, birthday, 'FR', 'FR', self.email)
+		self._register_card(number, cvx, expiration_date)
+
+		cost = product.quote(distance, quantity)
+
+		direct_payin = DirectPayIn(
+				author=self.mangopay_user,
+				debited_funds=Money(amount=cost, currency='EUR'),
+				fees=Money(amount=0, currency='EUR'),
+				credited_wallet_id=seller.wallet,
+				card_id=self.card,
+				secure_mode="DEFAULT",
+				secure_mode_return_url="https://www.ulule.com/")
+
+		direct_payin.save()
 
 	@staticmethod
 	def create(username, email, password):
@@ -39,8 +75,7 @@ class Client(UserMixin):
 		result = clientgraphql.clientql.execute(query)
 		id = result['registerClient']['id']
 
-		user = Client(id, username, email)
-		return user
+		return Client(id=id, username=username, email=email)
 
 	@staticmethod
 	def get(id):
@@ -53,8 +88,7 @@ class Client(UserMixin):
 }}'''.format(id))
 
 		result = clientgraphql.clientql.execute(query)
-		data = result['client']
-		return Client(data['id'], data['username'], data['email'])
+		return Client(**result['client'])
 
 	@staticmethod
 	def get_by_credential(email, password):

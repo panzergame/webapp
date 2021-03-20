@@ -14,9 +14,10 @@ def register_client():
         client = Client.create(form.username.data, form.email.data, form.password.data)
         login_user(client)
 
-        return redirect(url_for('main.products'))
+        return redirect(url_for('product.products'))
 
     return render_template('register_client.html', form=form)
+
 
 @auth_page.route('/client/login', methods=['GET', 'POST'])
 def login_client():
@@ -25,6 +26,6 @@ def login_client():
         client = Client.get_by_credential(form.email.data, form.password.data)
         login_user(client, remember=form.remember.data)
 
-        return redirect(url_for('main.products'))
+        return redirect(url_for('product.products'))
 
     return render_template('login_client.html', form=form)

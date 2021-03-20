@@ -8,8 +8,15 @@
 
 {% block content %}
 
+<h1>Liste des produits</h1>
 
-
-etrt
+<ol>
+{% for product in products %}
+	<li>
+		{{product.title}}
+		<a href={{url_for('product.product', productid=product.id)}}>Détails</a>
+	</li>
+{% endfor %}
+</ol>
 
 {% endblock %}

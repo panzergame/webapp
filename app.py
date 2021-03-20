@@ -6,10 +6,11 @@ import mangopay
 
 import os
 
-from main import main_page
-from auth import auth_page
+from pages.product import product_page
+from pages.auth import auth_page
 
 from core.client import Client
+from core.seller import Seller, init_seller
 import core.clientgraphql as clientgraphql
 
 app = Flask(__name__)
@@ -23,10 +24,12 @@ clientgraphql.init_graphql(app)
 mangopay.client_id = app.config['MANGOPAY_CLIENT_ID']
 mangopay.apikey = app.config['MANGOPAY_API_KEY']
 
+init_seller(app)
+
 # Flask-Bootstrap requires this line
 Bootstrap(app)
 
-app.register_blueprint(main_page)
+app.register_blueprint(product_page)
 app.register_blueprint(auth_page)
 
 login_manager = LoginManager()

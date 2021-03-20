@@ -1,0 +1,21 @@
+{% extends 'bootstrap/base.html' %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+
+{% block header %}
+  <h1>{% block title %}Achat {{product.title}}{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+
+<h1>Achat {{product.title}}</h1>
+
+{% if cost %}
+<div>Quantité : {{quantity}}</div>
+<div>Distance : {{distance}}</div>
+<div>Prix total : {{cost}}€</div>
+{% endif %}
+
+{{ wtf.quick_form(form) }}
+
+{% endblock %}
