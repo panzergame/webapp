@@ -56,6 +56,6 @@ class Product:
 		return Quote(product_cost=product_cost, total_weight=total_weight, shipping_cost=shipping_cost, total_cost=total_cost, distance=distance, quantity=quantity)
 
 	def _shipping_cost(self, distance, total_weight):
-		print(total_weight, distance)
 		shipping_cost = clientsoap.client.service.compute_shipping_cost(distance, total_weight)
+		print(total_weight, distance, shipping_cost)
 		return Money(shipping_cost, Currency.EUR)

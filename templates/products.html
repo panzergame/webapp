@@ -1,21 +1,24 @@
 {% extends 'index.html' %}
 
-
 {% block header %}
   <h1>{% block title %}Liste des produits{% endblock %}</h1>
 {% endblock %}
 
 {% block content %}
 
-<h1>Liste des produits</h1>
 
-<ol>
-{% for product in products %}
-	<li>
-		{{product.title}}
-		<a href={{url_for('product.product', productid=product.id)}}>Détails</a>
-	</li>
-{% endfor %}
-</ol>
+<div class="container">
+	<h1>Liste des produits</h1>
+	<div class="card-columns">
+	{% for product in products %}
+			<div class="card" style="width: 18rem;">
+				<div class="card-body">
+					<h5 class="card-title">{{product.title}}</h5>
+					<a class="card-link" href={{url_for('product.product', productid=product.id)}}>Détails</a>
+				</div>
+			</div>
+	{% endfor %}
+	</div>
+</div>
 
 {% endblock %}

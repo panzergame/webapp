@@ -6,12 +6,20 @@
 
 {% block content %}
 
-<h1>{{product.title}}</h1>
+<div class="container">
 
-<ul>
-	<li>Description : {{ product.description }}</li>
-	<li>Prix : {{ product.cost }}</li>
-	<li>Poids : {{ product.weight }}</li>
-	<li><a href={{url_for('product.quotation', productid=product.id)}}>Faire un devis</a></li>
-</ul>
+	<div class="card w100">
+		<div class="card-body">
+			<h1 class="card-title">{{product.title}}</h1>
+
+			<ul class="">
+				<li class="">Description : {{ product.description }}</li>
+				<li class="">Prix : {{ product.cost }}</li>
+				<li class="">Poids : {{ product.weight }}</li>
+			</ul>
+			<a class="btn btn-primary" href={{url_for('product.quotation', productid=product.id)}}>Faire un devis</a>
+		</div>
+	<div>
+</div>
+
 {% endblock %}

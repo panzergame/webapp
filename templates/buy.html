@@ -6,17 +6,26 @@
 
 {% block content %}
 
-<h1>Achat {{product.title}}</h1>
+<div class="container">
+	<div class="card">
+		<div class="card-body">
+			<h1 class="card-title">Achat {{product.title}}</h1>
 
-<ul>
-	<li>Prix unitaire : {{product.cost.format()}}</li>
-	<li>Poids unitaire : {{product.weight}}kg</li>
-	<li>Prix : {{quote.product_cost.format()}}</li>
-	<li>Poids : {{quote.total_weight}}kg</li>
-	<li>Frais de livraisons : {{quote.shipping_cost.format()}}</li>
-	<li>Prix total : {{quote.total_cost.format()}}</li>
-</ul>
+			<ul class="list-unstyled row">
+				<li class="col-md-6">Prix unitaire : {{product.cost.format()}}</li>
+				<li class="col-md-6">Poids unitaire : {{product.weight}}kg</li>
+				<li class="col-md-6">Prix produits : {{quote.product_cost.format()}}</li>
+				<li class="col-md-6">Poids : {{quote.total_weight}}kg</li>
+				<li class="col-md-6">Frais de livraisons : {{quote.shipping_cost.format()}}</li>
+			</ul>
 
-{{ wtf.quick_form(form) }}
+			<h5>Prix total : {{quote.total_cost.format()}}</h5>
 
+			<hr/>
+
+			{{ wtf.quick_form(form) }}
+
+		</div>
+	</div>
+</div>
 {% endblock %}

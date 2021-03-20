@@ -2,10 +2,14 @@
 
 {% block content %}
 
-{{ wtf.quick_form(form) }}
+<div class="container">
+	<div class="card">
+		<div class="card-body">
+			{{ wtf.quick_form(form) }}
 
-<div>
-	<a href={{url_for('auth.register_client', next=request.args.get('next'))}}>S'enregistrer</a>
+			<a class="card-link" href={{url_for('auth.register_client', next=request.args.get('next'))}}>S'enregistrer</a>
+		</div>
+	</div>
 </div>
 
 {% endblock %}

@@ -6,22 +6,33 @@
 
 {% block content %}
 
-<h1>Devis {{product.title}}</h1>
 
-<ul>
-	<li>Prix unitaire : {{product.cost.format()}}</li>
-	<li>Poids unitaire : {{product.weight}}kg</li>
-</ul>
+<div class="container">
+	<div class="card">
+		<div class="card-body">
+			<h1 class="card-title">Devis {{product.title}}</h1>
 
-{{ wtf.quick_form(form) }}
+			<ul class="list-unstyled row">
+				<li class="col-md-6">Prix unitaire : {{product.cost.format()}}</li>
+				<li class="col-md-6">Poids unitaire : {{product.weight}}kg</li>
+			</ul>
+			<hr/>
 
-{% if quote %}
-<ul>
-	<li>Prix : {{quote.product_cost.format()}}</li>
-	<li>Poids : {{quote.total_weight}}kg</li>
-	<li>Frais de livraisons : {{quote.shipping_cost.format()}}</li>
-	<li>Prix total : {{quote.total_cost.format()}}</li>
-</ul>
-{% endif %}
+			{{ wtf.quick_form(form) }}
+
+			{% if quote %}
+			<hr/>
+			<h2>Résultat</h2>
+			<ul class="list-unstyled row">
+				<li class="col-md-6">Prix produits : {{quote.product_cost.format()}}</li>
+				<li class="col-md-6">Poids : {{quote.total_weight}}kg</li>
+				<li class="col-md-6">Frais de livraisons : {{quote.shipping_cost.format()}}</li>
+			</ul>
+			<h5 class="">Prix total : {{quote.total_cost.format()}}</h5>
+		</div>
+
+		{% endif %}
+	</div>
+</div>
 
 {% endblock %}
