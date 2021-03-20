@@ -1,2 +1,4 @@
 Zeep
 Flask
+py-money
+Flask-login

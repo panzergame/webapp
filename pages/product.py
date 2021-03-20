@@ -29,8 +29,8 @@ def quotation(productid):
 		distance = form.distance.data
 
 		if form.quote.data:
-			cost = product.quote(distance, quantity)
-			return render_template('quotation.html', form=form, product=product, cost=cost)
+			quote = product.quote(distance, quantity)
+			return render_template('quotation.html', form=form, product=product, quote=quote)
 		else:
 			return redirect(url_for('product.buy', productid=product.id, quantity=quantity, distance=distance))
 
@@ -44,7 +44,7 @@ def buy(productid):
 	distance = request.args.get('distance', type=float)
 	quantity = request.args.get('quantity', type=int)
 
-	cost = product.quote(distance, quantity)
+	quote = product.quote(distance, quantity)
 
 	form = BuyProductForm()
 	if form.validate_on_submit():
@@ -54,4 +54,4 @@ def buy(productid):
 			form.number.data, form.cvx.data, form.expiration_date.data,
 			form.first_name.data, form.last_name.data, form.birthday.data)
 
-	return render_template('buy.html', product=product, distance=distance, quantity=quantity, cost=cost, form=form)
+	return render_template('buy.html', product=product, distance=distance, quantity=quantity, quote=quote, form=form)

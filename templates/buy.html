@@ -10,11 +10,14 @@
 
 <h1>Achat {{product.title}}</h1>
 
-{% if cost %}
-<div>Quantité : {{quantity}}</div>
-<div>Distance : {{distance}}</div>
-<div>Prix total : {{cost}}€</div>
-{% endif %}
+<ul>
+	<li>Prix unitaire : {{product.cost.format()}}</li>
+	<li>Poids unitaire : {{product.weight}}kg</li>
+	<li>Prix : {{quote.product_cost.format()}}</li>
+	<li>Poids : {{quote.total_weight}}kg</li>
+	<li>Frais de livraisons : {{quote.shipping_cost.format()}}</li>
+	<li>Prix total : {{quote.total_cost.format()}}</li>
+</ul>
 
 {{ wtf.quick_form(form) }}
 

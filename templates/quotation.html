@@ -10,13 +10,20 @@
 
 <h1>Devis {{product.title}}</h1>
 
+<ul>
+	<li>Prix unitaire : {{product.cost.format()}}</li>
+	<li>Poids unitaire : {{product.weight}}kg</li>
+</ul>
+
 {{ wtf.quick_form(form) }}
 
-{% if cost and shipping_cost %}
-<div>
-	Prix total : {{cost}}€
-	Frais de livraisons : {{shipping_cost}}€
-</div>
+{% if quote %}
+<ul>
+	<li>Prix : {{quote.product_cost.format()}}</li>
+	<li>Poids : {{quote.total_weight}}kg</li>
+	<li>Frais de livraisons : {{quote.shipping_cost.format()}}</li>
+	<li>Prix total : {{quote.total_cost.format()}}</li>
+</ul>
 {% endif %}
 
 {% endblock %}
