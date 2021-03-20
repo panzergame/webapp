@@ -6,7 +6,7 @@ from mangopay.utils import Address
 
 from gql import gql
 from . import clientgraphql
-from .seller import seller
+from . import seller
 import requests
 
 
@@ -17,10 +17,11 @@ class Client(UserMixin):
 		self.email = email
 
 	def _register_mangopay(self, firstname, lastname, birthday, nationality, country_of_residence):
+		print(self.id)
 		self.mangopay_user = NaturalUser(
 						first_name=firstname,
 						last_name=lastname,
-						birthday=birthday,
+						birthday=int(birthday.strftime('%s')),
 						nationality=nationality,
 						country_of_residence=country_of_residence,
 						email=self.email)
@@ -33,9 +34,9 @@ class Client(UserMixin):
 		tokenizer_url = card_registration.card_registration_url
 		res = requests.post(
 			tokenizer_url, data={
-				'cardNumber': '4970100000000154',
-				'cardCvx': '123',
-				'cardExpirationDate': '0128',
+				'cardNumber': number,
+				'cardCvx': cvx,
+				'cardExpirationDate': expiration_date.strftime('%m%y'),
 				'accessKeyRef': card_registration.access_key,
 				'data': card_registration.preregistration_data
 			})
@@ -45,19 +46,17 @@ class Client(UserMixin):
 		self.card = card_registration.card
 
 	def buy_product(
-			self, product, quantity, distance, number, cvx, expiration_date, first_name,
+			self, product, quote, number, cvx, expiration_date, first_name,
 			last_name, birthday):
 
-		self._register_mangopay(first_name, last_name, birthday, 'FR', 'FR', self.email)
+		self._register_mangopay(first_name, last_name, birthday, 'FR', 'FR')
 		self._register_card(number, cvx, expiration_date)
-
-		cost = product.quote(distance, quantity)
 
 		direct_payin = DirectPayIn(
 				author=self.mangopay_user,
-				debited_funds=Money(amount=cost, currency='EUR'),
+				debited_funds=Money(amount=quote.total_cost.sub_units, currency='EUR'),
 				fees=Money(amount=0, currency='EUR'),
-				credited_wallet_id=seller.wallet,
+				credited_wallet_id=seller.seller.wallet,
 				card_id=self.card,
 				secure_mode="DEFAULT",
 				secure_mode_return_url="https://www.ulule.com/")
@@ -79,6 +78,7 @@ class Client(UserMixin):
 
 	@staticmethod
 	def get(id):
+		print('get', id)
 		query = gql('''{{
 	client (id: "{}"){{
 		id,
@@ -92,5 +92,6 @@ class Client(UserMixin):
 
 	@staticmethod
 	def get_by_credential(email, password):
+		print('credential')
 		return Client(0, 'toto', email, password)  # TODO
 

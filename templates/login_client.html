@@ -6,4 +6,8 @@
 
 {{ wtf.quick_form(form) }}
 
+<div>
+	<a href={{url_for('auth.register_client', next=request.args.get('next'))}}>S'enregistrer</a>
+</div>
+
 {% endblock %}

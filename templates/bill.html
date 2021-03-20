@@ -1,0 +1,22 @@
+{% extends 'bootstrap/base.html' %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+
+{% block header %}
+  <h1>{% block title %}Achat terminé {{product.title}}{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+
+<h1>Merci pour votre achat de {{product.title}}</h1>
+
+<ul>
+	<li>Prix unitaire : {{product.cost.format()}}</li>
+	<li>Poids unitaire : {{product.weight}}kg</li>
+	<li>Prix : {{quote.product_cost.format()}}</li>
+	<li>Poids : {{quote.total_weight}}kg</li>
+	<li>Frais de livraisons : {{quote.shipping_cost.format()}}</li>
+	<li>Prix total : {{quote.total_cost.format()}}</li>
+</ul>
+
+{% endblock %}

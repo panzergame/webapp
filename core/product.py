@@ -12,7 +12,7 @@ class Product:
 		self.title = title
 		self.description = description
 		self.cost = Money(cost, Currency.EUR)
-		self.weight = float(weight)
+		self.weight = weight
 
 	@staticmethod
 	def get(id):

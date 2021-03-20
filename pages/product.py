@@ -31,13 +31,13 @@ def quotation(productid):
 		if form.quote.data:
 			quote = product.quote(distance, quantity)
 			return render_template('quotation.html', form=form, product=product, quote=quote)
-		else:
-			return redirect(url_for('product.buy', productid=product.id, quantity=quantity, distance=distance))
+		elif form.buy.data:
+			return redirect(url_for('product.buy', productid=product.id, distance=distance, quantity=quantity))
 
 	return render_template('quotation.html', form=form, product=product)
 
 
-@product_page.route('/product/<productid>/buy', methods=['GET', 'POST'])  # TODO repasser la distance et quantité
+@product_page.route('/product/<productid>/buy', methods=['GET', 'POST'])
 @login_required
 def buy(productid):
 	product = Product.get(productid)
@@ -50,8 +50,10 @@ def buy(productid):
 	if form.validate_on_submit():
 		client = current_user
 		client.buy_product(
-			product, quantity, distance,
+			product, quote,
 			form.number.data, form.cvx.data, form.expiration_date.data,
 			form.first_name.data, form.last_name.data, form.birthday.data)
 
-	return render_template('buy.html', product=product, distance=distance, quantity=quantity, quote=quote, form=form)
+		return render_template('bill.html', product=product, quote=quote)
+
+	return render_template('buy.html', product=product, quote=quote, form=form)
