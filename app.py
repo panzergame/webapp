@@ -11,7 +11,8 @@ from pages.auth import auth_page
 
 from core.client import Client
 from core.seller import Seller, init_seller
-import core.clientgraphql as clientgraphql
+from core.clientgraphql import init_graphql
+from core.clientsoap import init_soap
 
 app = Flask(__name__)
 app.config.from_pyfile(os.environ.get('WEBAPP_CONFIG') or 'config/default.cfg')
@@ -19,7 +20,8 @@ app.config.from_pyfile(os.environ.get('WEBAPP_CONFIG') or 'config/default.cfg')
 # Flask-WTF requires an encryption key - the string can be anything
 app.config['SECRET_KEY'] = b'x\xfa\xd4\x04x]g,(t\xb5\xf7j\xb9\x8c\x13'
 
-clientgraphql.init_graphql(app)
+init_graphql(app)
+init_soap(app)
 
 mangopay.client_id = app.config['MANGOPAY_CLIENT_ID']
 mangopay.apikey = app.config['MANGOPAY_API_KEY']

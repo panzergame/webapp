@@ -71,27 +71,33 @@ class Client(UserMixin):
 	}}
 }}'''.format(username, email, password))
 
-		result = clientgraphql.clientql.execute(query)
+		result = clientgraphql.client.execute(query)
 		id = result['registerClient']['id']
 
 		return Client(id=id, username=username, email=email)
 
 	@staticmethod
 	def get(id):
-		print('get', id)
 		query = gql('''{{
-	client (id: "{}"){{
+	clientById (id: "{}"){{
 		id,
 		username,
 		email
 	}}
 }}'''.format(id))
 
-		result = clientgraphql.clientql.execute(query)
-		return Client(**result['client'])
+		result = clientgraphql.client.execute(query)
+		return Client(**result['clientById'])
 
 	@staticmethod
 	def get_by_credential(email, password):
-		print('credential')
-		return Client(0, 'toto', email, password)  # TODO
+		query = gql('''{{
+	clientByCredential (email: "{}", password: "{}"){{
+		id,
+		username,
+		email
+	}}
+}}'''.format(email, password))
 
+		result = clientgraphql.client.execute(query)
+		return Client(**result['clientByCredential'])

@@ -2,3 +2,5 @@ Zeep
 Flask
 py-money
 Flask-login
+Zeep
+Isodate
