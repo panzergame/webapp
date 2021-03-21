@@ -9,11 +9,14 @@
 
 <div class="container">
 	<h1>Liste des produits</h1>
-	<div class="card-columns">
+	<div class="card-columns mb-3">
 	{% for product in products %}
-			<div class="card" style="width: 18rem;">
+			<div class="card">
+				<div class="card-header text-center">
+					<h5 class="my-0">{{product.title}}</h5>
+				</div>
 				<div class="card-body">
-					<h5 class="card-title">{{product.title}}</h5>
+						<h5 class="">{{ product.cost.format() }}</h5>
 					<a class="card-link" href={{url_for('product.product', productid=product.id)}}>Détails</a>
 				</div>
 			</div>

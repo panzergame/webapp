@@ -12,10 +12,10 @@
 		<div class="card-body">
 			<h1 class="card-title">{{product.title}}</h1>
 
-			<ul class="">
-				<li class="">Description : {{ product.description }}</li>
-				<li class="">Prix : {{ product.cost }}</li>
-				<li class="">Poids : {{ product.weight }}</li>
+			<ul class="list-unstyled row">
+				<li class="col-md-10">Description : {{ product.description }}</li>
+				<li class="col-md-6">Prix : {{ product.cost }}</li>
+				<li class="col-md-6">Poids : {{ product.weight }}</li>
 			</ul>
 			<a class="btn btn-primary" href={{url_for('product.quotation', productid=product.id)}}>Faire un devis</a>
 		</div>

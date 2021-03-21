@@ -3,3 +3,6 @@ runtime: python38
 handlers:
 - url: /.*
   script: auto
+
+env_variables:
+  WEBAPP_CONFIG: "config/production.cfg"

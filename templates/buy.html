@@ -12,10 +12,15 @@
 			<h1 class="card-title">Achat {{product.title}}</h1>
 
 			<ul class="list-unstyled row">
+				<li class="col-md-6"><h6>Quantité : {{quote.quantity}}</h6></li>
+				<li class="col-md-6"><h6>Distance : {{quote.distance}}</h6></li>
+			</ul>
+
+			<ul class="list-unstyled row">
 				<li class="col-md-6">Prix unitaire : {{product.cost.format()}}</li>
 				<li class="col-md-6">Poids unitaire : {{product.weight}}kg</li>
 				<li class="col-md-6">Prix produits : {{quote.product_cost.format()}}</li>
-				<li class="col-md-6">Poids : {{quote.total_weight}}kg</li>
+				<li class="col-md-6">Poids total : {{quote.total_weight}}kg</li>
 				<li class="col-md-6">Frais de livraisons : {{quote.shipping_cost.format()}}</li>
 			</ul>
 
